@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Experimenting with three.js</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #f0f0f0;
+				margin: 0px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="js/three.min.js"></script>
+		<script src="js/libs/stats.min.js"></script>
+		<script>
+			//Experiment 01 with three.js
+			//---------------------------
+			var scene = new THREE.Scene();
+
+			/*
+			 * There are several types of cameras in three.js.
+			 * Attributes of PerspectivCamera:
+			 * FieldOfView, AspectRatio, NearClippingPlane, FarClippingPlane
+			 * Note: width/height is almost always ideal otherwise the image looks squished.
+			 */
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+		</script>
+	</body>
+</html>
