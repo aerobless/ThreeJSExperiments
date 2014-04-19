@@ -29,8 +29,11 @@
 			 */
 			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
+			//There are other renders that can be used as fallback if a browser doesn't support WebGL
 			var renderer = new THREE.WebGLRenderer();
+			//The "resultion" at which our app gets rendered
 			renderer.setSize( window.innerWidth, window.innerHeight );
+			//Add the renderer to the HTML5 document
 			document.body.appendChild( renderer.domElement );
 
 		</script>
