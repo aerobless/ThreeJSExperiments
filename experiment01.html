@@ -53,9 +53,18 @@
 				//requestAnim is better then setInterval because it pauses when the user navigates to another tab
 				//so we can save battery life on mobile devices
 				requestAnimationFrame(render);
+
+				//Make cube rotate
+				cube.rotation.x += 0.1;
+				cube.rotation.y += 0.1;
+
+				//All activities etc. should be in here:
+
 				renderer.render(scene, camera);
 			}
 			render();
+
+
 
 		</script>
 	</body>
