@@ -212,6 +212,15 @@
 					scene.add( test );
 				} );
 
+				//cube test
+				var geometry = new THREE.CubeGeometry(30,30,30);
+				var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+				var cube = new THREE.Mesh( geometry, material );
+				cube.position.y = 5;
+				cube.position.x = 0;
+				cube.position.z = 100;
+				scene.add( cube );
+
 				renderer = new THREE.WebGLRenderer();
 				renderer.setClearColor( 0xffffff );
 				renderer.setSize( window.innerWidth, window.innerHeight );
