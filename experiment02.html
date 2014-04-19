@@ -18,6 +18,7 @@
 		<script src="js/libs/stats.min.js"></script>
 		<script src="js/OBJLoader.js"></script>
 		<script>
+
 			//Experiment 02 with three.js
 			//---------------------------
 			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -55,9 +56,8 @@
 
 			} );
 
-			var test;
-
 			var loader = new THREE.OBJLoader( manager );
+			var test;
 			loader.load( 'models/such3d_text.obj', function ( object ) {
 				//Would be useful if we had a texture on the model
 				/*
