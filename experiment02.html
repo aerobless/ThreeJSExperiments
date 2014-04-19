@@ -55,6 +55,8 @@
 
 			} );
 
+			var test;
+
 			var loader = new THREE.OBJLoader( manager );
 			loader.load( 'models/such3d_text.obj', function ( object ) {
 				//Would be useful if we had a texture on the model
@@ -70,7 +72,8 @@
 				});
 				*/
 				object.position.y = - 80;
-				scene.add( object );
+				test = object
+				scene.add( test );
 
 			} );
 
@@ -78,7 +81,8 @@
 				requestAnimationFrame(render);
 
 				//All activities etc. should be in here:
-
+				test.rotation.x += 0.01;
+				test.rotation.y += 0.01;
 				renderer.render(scene, camera);
 			}
 			render();
