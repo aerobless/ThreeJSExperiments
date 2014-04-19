@@ -36,6 +36,27 @@
 			//Add the renderer to the HTML5 document
 			document.body.appendChild( renderer.domElement );
 
+			//Adding a primitive cube geometry with size 1x1x1
+			var geometry = new THREE.CubeGeometry(1,1,1);
+			//Selecting the material for the cube, here a simple hex color
+			var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+			//A mesh combines geometry & material
+			var cube = new THREE.Mesh( geometry, material );
+			//Adding the mesh to the scene at 0,0,0
+			scene.add( cube );
+
+			//Moving the camera out so we can see the cube
+			camera.position.z = 5;
+
+			//The render-loop is required so that the scene gets continously rendered
+			function render() {
+				//requestAnim is better then setInterval because it pauses when the user navigates to another tab
+				//so we can save battery life on mobile devices
+				requestAnimationFrame(render);
+				renderer.render(scene, camera);
+			}
+			render();
+
 		</script>
 	</body>
 </html>
