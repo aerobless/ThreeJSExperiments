@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Experimenting with three.js</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #f0f0f0;
+				margin: 0px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="js/three.min.js"></script>
+		<script src="js/libs/stats.min.js"></script>
+		<script src="js/OBJLoader.js"></script>
+		<script>
+			//Experiment 02 with three.js
+			//---------------------------
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			var container = document.createElement( 'div' );
+			document.body.appendChild( container );
+
+			camera.position.z = 200;
+
+			var scene = new THREE.Scene();
+			var ambient = new THREE.AmbientLight( 0x101030 );
+			scene.add( ambient );
+
+			var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+			directionalLight.position.set( 0, 0, 1 );
+			scene.add( directionalLight );
+
+			var manager = new THREE.LoadingManager();
+			manager.onProgress = function ( item, loaded, total ) {
+
+				console.log( item, loaded, total );
+
+			};
+
+			var texture = new THREE.Texture();
+
+			var loader = new THREE.ImageLoader( manager );
+			loader.load( 'models/UV_Grid_Sm.jpg', function ( image ) {
+
+					texture.image = image;
+					texture.needsUpdate = true;
+
+			} );
+
+			var loader = new THREE.OBJLoader( manager );
+			loader.load( 'models/such3d_text.obj', function ( object ) {
+				//Would be useful if we had a texture on the model
+				/*
+				object.traverse( function ( child ) {
+
+					if ( child instanceof THREE.Mesh ) {
+
+						child.material.map = texture;
+
+					}
+
+				});
+				*/
+				object.position.y = - 80;
+				scene.add( object );
+
+			} );
+
+			function render() {
+				requestAnimationFrame(render);
+
+				//All activities etc. should be in here:
+
+				renderer.render(scene, camera);
+			}
+			render();
+
+		</script>
+	</body>
+</html>
