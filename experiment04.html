@@ -77,7 +77,6 @@
             var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
             if ( havePointerLock ) {
-
                 var element = document.body;
                 var pointerlockchange = function ( event ) {
 
@@ -226,6 +225,32 @@
 
                 window.addEventListener( 'resize', onWindowResize, false );
 
+                //Add *text*
+                var manager = new THREE.LoadingManager();
+                manager.onProgress = function ( item, loaded, total ) {
+                  console.log( item, loaded, total );
+                };
+
+                var texture = new THREE.Texture();
+
+                var loader = new THREE.ImageLoader( manager );
+                loader.load( 'models/UV_Grid_Sm.jpg', function ( image ) {
+                    texture.image = image;
+                    texture.needsUpdate = true;
+                } );
+
+                var loader = new THREE.OBJLoader( manager );
+                var such3dText;
+                loader.load( 'models/such3d_text.obj', function ( object ) {
+                  object.position.y = 2;
+                  object.position.x = 0;
+                  object.position.z = -20;
+                  object.scale.set(0.2,0.2,0.2);
+                  such3dText = object
+                  scene.add( such3dText );
+                } );
+                //such3dText.scale.set(1.2,1.2,1);
+
                 // Add boxes
                 var halfExtents = new CANNON.Vec3(1,1,1);
                 var boxShape = new CANNON.Box(halfExtents);
@@ -244,39 +269,6 @@
                     boxMesh.receiveShadow = true;
                     boxes.push(boxBody);
                     boxMeshes.push(boxMesh);
-                }
-
-                // Add linked boxes
-                var size = 0.5;
-                var he = new CANNON.Vec3(size,size,size*0.1);
-                var boxShape = new CANNON.Box(he);
-                var mass = 0;
-                var space = 0.1*size;
-                var N=5, last;
-                var boxGeometry = new THREE.CubeGeometry(he.x*2,he.y*2,he.z*2);
-                for(var i=0; i<N; i++){
-                    var boxbody = new CANNON.RigidBody(mass,boxShape);
-                    var boxMesh = new THREE.Mesh( boxGeometry, material );
-                    boxbody.position.set(5,(N-i)*(size*2+2*space) + size*2+space,0);
-                    boxbody.linearDamping=0.01;
-                    boxbody.angularDamping=0.01;
-                    boxMesh.castShadow = true;
-                    boxMesh.receiveShadow = true;
-                    world.add(boxbody);
-                    scene.add(boxMesh);
-                    boxes.push(boxbody);
-                    boxMeshes.push(boxMesh);
-
-                    if(i!=0){
-                        // Connect this body to the last one
-                        var c1 = new CANNON.PointToPointConstraint(boxbody,new CANNON.Vec3(-size,size+space,0),last,new CANNON.Vec3(-size,-size-space,0));
-                        var c2 = new CANNON.PointToPointConstraint(boxbody,new CANNON.Vec3(size,size+space,0),last,new CANNON.Vec3(size,-size-space,0));
-                        world.addConstraint(c1);
-                        world.addConstraint(c2);
-                    } else {
-                        mass=0.3;
-                    }
-                    last = boxbody;
                 }
             }
 
