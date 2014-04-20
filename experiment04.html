@@ -58,19 +58,15 @@
         <script src="js/cannon.js"></script>
 
         <div id="blocker">
-
             <div id="instructions">
                 <span style="font-size:40px">Click to play</span>
                 <br />
                 (W,A,S,D = Move, SPACE = Jump, MOUSE = Look, CLICK = Shoot)
             </div>
-
         </div>
 
         <script>
-
             var sphereShape, sphereBody, world, physicsMaterial, walls=[], balls=[], ballMeshes=[], boxes=[], boxMeshes=[];
-
             var camera, scene, renderer;
             var geometry, material, mesh;
             var controls,time = Date.now();
@@ -83,27 +79,18 @@
             if ( havePointerLock ) {
 
                 var element = document.body;
-
                 var pointerlockchange = function ( event ) {
 
                     if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
-
                         controls.enabled = true;
-
                         blocker.style.display = 'none';
-
                     } else {
-
                         controls.enabled = false;
-
                         blocker.style.display = '-webkit-box';
                         blocker.style.display = '-moz-box';
                         blocker.style.display = 'box';
-
                         instructions.style.display = '';
-
                     }
-
                 }
 
                 var pointerlockerror = function ( event ) {
@@ -122,43 +109,17 @@
                 instructions.addEventListener( 'click', function ( event ) {
                     instructions.style.display = 'none';
 
-                    // Ask the browser to lock the pointer
-                    element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
-
-                    if ( /Firefox/i.test( navigator.userAgent ) ) {
-
-                        var fullscreenchange = function ( event ) {
-
-                            if ( document.fullscreenElement === element || document.mozFullscreenElement === element || document.mozFullScreenElement === element ) {
-
-                                document.removeEventListener( 'fullscreenchange', fullscreenchange );
-                                document.removeEventListener( 'mozfullscreenchange', fullscreenchange );
-
-                                element.requestPointerLock();
-                            }
-
-                        }
-
-                        document.addEventListener( 'fullscreenchange', fullscreenchange, false );
-                        document.addEventListener( 'mozfullscreenchange', fullscreenchange, false );
-
-                        element.requestFullscreen = element.requestFullscreen || element.mozRequestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen;
-
-                        element.requestFullscreen();
-
-                    } else {
-
-                        element.requestPointerLock();
-
-                    }
-
-                }, false );
-
-            } else {
-
+              // Ask the browser to lock the pointer
+                element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+                if ( /Firefox/i.test( navigator.userAgent ) ) {
+                  element.requestPointerLock();
+                } else {
+                  element.requestPointerLock();
+                }
+              }, false );
+              } else {
                 instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
-
-            }
+              }
 
             initCannon();
             init();
@@ -212,7 +173,6 @@
             }
 
             function init() {
-
                 camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
                 scene = new THREE.Scene();
@@ -248,8 +208,8 @@
                 geometry = new THREE.PlaneGeometry( 300, 300, 50, 50 );
                 geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
 
-                material = new THREE.MeshLambertMaterial( { color: 0xdddddd } );
-                //THREE.ColorUtils.adjustHSV( material.color, 0, 0, 0.9 );
+                material = new THREE.MeshLambertMaterial( { color: 0x00aaee } );
+                //offsetHSL()( material.color, 0, 0, 0.9 );
 
                 mesh = new THREE.Mesh( geometry, material );
                 mesh.castShadow = true;
@@ -282,11 +242,9 @@
                     boxMesh.position.set(x,y,z);
                     boxMesh.castShadow = true;
                     boxMesh.receiveShadow = true;
-                    boxMesh.useQuaternion = true;
                     boxes.push(boxBody);
                     boxMeshes.push(boxMesh);
                 }
-
 
                 // Add linked boxes
                 var size = 0.5;
@@ -302,7 +260,6 @@
                     boxbody.position.set(5,(N-i)*(size*2+2*space) + size*2+space,0);
                     boxbody.linearDamping=0.01;
                     boxbody.angularDamping=0.01;
-                    boxMesh.useQuaternion = true;
                     boxMesh.castShadow = true;
                     boxMesh.receiveShadow = true;
                     world.add(boxbody);
@@ -393,10 +350,8 @@
                     z += shootDirection.z * (sphereShape.radius*1.02 + ballShape.radius);
                     ballBody.position.set(x,y,z);
                     ballMesh.position.set(x,y,z);
-                    ballMesh.useQuaternion = true;
                 }
             });
-
         </script>
     </body>
 </html>
